@@ -12,8 +12,7 @@ class Session(db.Model):
     day = db.StringProperty()
     start_time = db.DateTimeProperty()
     end_time = db.DateTimeProperty()
-    lanes = db.StringProperty()
-    
+    lanes = db.StringProperty()    
     
 def make_table(today, pool):
     q = Session.all().filter('day =', today).filter('pool =', pool).order('start_time')
@@ -26,17 +25,40 @@ def make_table(today, pool):
         table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
     table += '</table>'
     return table
+    
+def correct_for_dst(today):
+	spring2011 = datetime.datetime(2011,03,27,1,0)
+	autumn2011 = datetime.datetime(2011,10,30,2,0)
+	spring2012 = datetime.datetime(2012,03,25,1,0)
+	autumn2011 = datetime.datetime(2012,10,28,2,0)
+	spring2013 = datetime.datetime(2013,03,31,1,0)
+	autumn2013 = datetime.datetime(2013,10,27,2,0)
+	spring2014 = datetime.datetime(2014,03,30,1,0)
+	autumn2014 = datetime.datetime(2014,10,26,2,0)
+	spring2015 = datetime.datetime(2015,03,29,1,0)
+	autumn2015 = datetime.datetime(2015,10,25,2,0)
+	if today >= spring2011 and today <= autumn2011:
+		return today + datetime.timedelta(0,3600)
+	else:
+		return today
 
 
 class Today(webapp.RequestHandler):
     def get(self):
+        todaynow = correct_for_dst(datetime.datetime.today())
+        
         dayofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-        today = dayofWeek[datetime.datetime.weekday(datetime.date.today())]
+        today = dayofWeek[datetime.datetime.weekday(todaynow)]
+        
+        now = todaynow.time()
+
         today_Highbury = make_table(today, 'Highbury Leisure Centre')
         today_Oasis_i = make_table(today, 'Oasis indoor')
         today_Oasis_o = make_table(today, 'Oasis outdoor')
-
+        
+        
         template_values = {
+            'now' : now,
             'today' : today,
             'today_Highbury' : today_Highbury,
             'today_Oasis_i' : today_Oasis_i,
