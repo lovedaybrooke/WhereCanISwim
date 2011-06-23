@@ -1,0 +1,20 @@
+<html>
+ <head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <!-- Start iPhone -->
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <!-- <link rel="apple-touch-icon" href="/iphone.png" /> -->
+    <link media="only screen and (max-device-width: 320px)" href="/stylesheets/iphone.css" type= "text/css" rel="stylesheet" />
+    <!-- End iPhone -->
+ </head>
+ <body>
+   <h1>Where can I swim?</h1>
+   <div class="day-nav">
+   {% block day %}
+   {% endblock %}
+   </div>
+   {% block timetables %}
+   {% endblock %}
+   <p id="about"><a href="/about">Wha?</a></p>
+ </body>
+</html>

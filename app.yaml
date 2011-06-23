@@ -1,0 +1,15 @@
+application: wherecaniswim
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+
+- url: /about
+  static_files: where-can-i-swim-about.html
+  upload: where-can-i-swim-about.html
+  
+- url: /.*
+  script: where-can-i-swim.py

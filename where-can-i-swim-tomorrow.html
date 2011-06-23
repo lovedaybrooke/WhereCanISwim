@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+	  {% block day %}
+      <p id="today-link"><a href="/">&#8592;Today</a></p>
+      <p class="day">Tomorrow<br>
+      ({{ tomorrow }})</p>
+	  <p id="tomorrow-link"></p>
+
+	  {% endblock %}
+      
+	{% block timetables %}
+        <h2>Oasis indoor</h2>
+        {{ tomorrow_Oasis_i|safe }}
+
+        <h2>Oasis outdoor</h2>
+        {{ tomorrow_Oasis_o|safe }}
+
+        <h2>Highbury Leisure Centre</h2>
+        {{ tomorrow_Highbury|safe }}
+	{% endblock %}
