@@ -1,5 +1,8 @@
 import datetime
 import os
+import sys
+for k in [k for k in sys.modules if k.startswith('django')]: 
+    del sys.modules[k] 
 from google.appengine.dist import use_library
 use_library('django', '1.2')
 from google.appengine.ext.webapp import template
@@ -10,12 +13,12 @@ from google.appengine.ext import db
 class Session(db.Model):
     pool = db.StringProperty()
     day = db.StringProperty()
-    start_time = db.DateTimeProperty()
-    end_time = db.DateTimeProperty()
+    start_time = db.TimeProperty()
+    end_time = db.TimeProperty()
     lanes = db.StringProperty()    
     
-def make_table(today, pool):
-    q = Session.all().filter('day =', today).filter('pool =', pool).order('start_time')
+def make_table(day, pool, time=datetime.time(0)):
+    q = Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time')
     
     table = '<table>'
     for session in q:
@@ -51,11 +54,11 @@ class Today(webapp.RequestHandler):
         today = dayofWeek[datetime.datetime.weekday(todaynow)]
         
         now = todaynow.time()
+        earliest_end_time = (todaynow + datetime.timedelta(0,3600)).time()
 
-        today_Highbury = make_table(today, 'Highbury Leisure Centre')
-        today_Oasis_i = make_table(today, 'Oasis indoor')
-        today_Oasis_o = make_table(today, 'Oasis outdoor')
-        
+        today_Highbury = make_table(today, 'Highbury Leisure Centre', earliest_end_time)
+        today_Oasis_i = make_table(today, 'Oasis indoor', earliest_end_time)
+        today_Oasis_o = make_table(today, 'Oasis outdoor', earliest_end_time)
         
         template_values = {
             'now' : now,

@@ -14,4 +14,24 @@ indexes:
   properties:
   - name: day
   - name: pool
+  - name: end_time
+
+- kind: Session
+  properties:
+  - name: day
+  - name: pool
+  - name: end_time
+  - name: start_time
+
+- kind: Session
+  properties:
+  - name: day
+  - name: pool
+  - name: end_time
+    direction: desc
+
+- kind: Session
+  properties:
+  - name: day
+  - name: pool
   - name: start_time
