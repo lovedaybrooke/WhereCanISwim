@@ -20,14 +20,17 @@ class Session(db.Model):
 def make_table(day, pool, time=datetime.time(0)):
     q = Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time')
     
-    table = '<table>'
-    for session in q:
-        strstart_time = session.start_time.strftime('%H:%M').lstrip('0')
-        strend_time = session.end_time.strftime('%H:%M').lstrip('0')
-        timecell = "%s - %s" % (strstart_time, strend_time)
-        table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
-    table += '</table>'
-    return table
+    if Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time').get():
+        table = '<table>'
+        for session in q:
+            strstart_time = session.start_time.strftime('%H:%M').lstrip('0')
+            strend_time = session.end_time.strftime('%H:%M').lstrip('0')
+            timecell = "%s - %s" % (strstart_time, strend_time)
+            table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
+        table += '</table>'
+        return table
+    else:
+        return "<p>No more swimming here today, I'm afraid.</p>"
     
 def correct_for_dst(today):
 	spring2011 = datetime.datetime(2011,03,27,1,0)
