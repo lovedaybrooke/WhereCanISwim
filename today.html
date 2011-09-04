@@ -1,0 +1,8 @@
+{% extends "timetables.html" %}
+
+   	{% block day %}
+    <p id="today-link"></p>
+    <p class="day">Today<br>
+    ({{ day }})</p>
+    <p id="tomorrow-link"><a href="/tomorrow">Tomorrow&#8594;</a></p>
+	{% endblock %}

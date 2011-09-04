@@ -8,8 +8,8 @@ handlers:
   static_dir: stylesheets
 
 - url: /about
-  static_files: where-can-i-swim-about.html
-  upload: where-can-i-swim-about.html
+  static_files: about.html
+  upload: about.html
   
 - url: /.*
   script: where-can-i-swim.py
