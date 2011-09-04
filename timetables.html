@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+	{% block timetables %}
+        <h2>Highbury Leisure Centre</h2>
+        {{ today_Highbury|safe }}
+        
+        <h2>Oasis indoor</h2>
+        {{ today_Oasis_i|safe }}
+
+        <h2>Oasis outdoor</h2>
+        {{ today_Oasis_o|safe }}
+        
+        <h2>London Fields Lido</h2>
+        {{ today_London|safe }}
+	{% endblock %}
