@@ -75,8 +75,9 @@ class Day(webapp.RequestHandler):
             else:
                 day = 'Monday'
 
-        York = make_table(day, 'York Hall Leisure Centre', earliest_end_time)
         George = make_table(day, "St George's Swimming Pools", earliest_end_time)
+        Mile = make_table(day, "Mile End Pools", earliest_end_time)
+        York = make_table(day, 'York Hall Leisure Centre', earliest_end_time)
         Highbury = make_table(day, 'Highbury Leisure Centre', earliest_end_time)
         Oasis_i = make_table(day, 'Oasis indoor', earliest_end_time)
         Oasis_o = make_table(day, 'Oasis outdoor', earliest_end_time)
@@ -84,6 +85,7 @@ class Day(webapp.RequestHandler):
         
         template_values = {
             'day' : day,
+            'Mile': Mile,
             'George': George,
             'York': York,
             'Highbury' : Highbury,
@@ -105,6 +107,27 @@ class Day(webapp.RequestHandler):
        
 class gimmedata(webapp.RequestHandler):
     def get(self): 
+        Session.create_session_record('Mile End Pools','Monday','6.30','9.00','With lanes')
+        Session.create_session_record('Mile End Pools','Monday','12.15','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Monday','13.30','18.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Monday','18.00','22.00','With lanes')
+        Session.create_session_record('Mile End Pools','Tuesday','6.30','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Tuesday','15.30','18.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Tuesday','18.00','22.00','With lanes')
+        Session.create_session_record('Mile End Pools','Wednesday','6.30','9.00','With lanes')
+        Session.create_session_record('Mile End Pools','Wednesday','12.15','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Wednesday','1.30','18.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Wednesday','6.00','22.00','With lanes')
+        Session.create_session_record('Mile End Pools','Thursday','6.30','9.00','With lanes')
+        Session.create_session_record('Mile End Pools','Thursday','12.15','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Thursday','13.30','19.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Friday','6.30','9.00','With lanes')
+        Session.create_session_record('Mile End Pools','Friday','12.15','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Friday','1.30','20.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Friday','8.00','22.00','With lanes')
+        Session.create_session_record('Mile End Pools','Saturday','9.00','11.00','With lanes')
+        Session.create_session_record('Mile End Pools','Saturday','11.00','17.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Sunday','9.00','17.00','Some lanes')
         Session.create_session_record('York Hall Leisure Centre','Monday','7.00','9.00','With lanes')
         Session.create_session_record('York Hall Leisure Centre','Monday','13.30','15.30','May be lanes')
         Session.create_session_record('York Hall Leisure Centre','Monday','15.30','20.30','May be lanes')
