@@ -25,22 +25,24 @@ class Session(db.Model):
         a.end_time = (datetime.datetime.strptime(end_time,'%H.%M')).time()
         db.put(a)
     
+    @classmethod
+    def here_now_sessions(cls, day, pool, time):
+        return Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time')
     
-def make_table(day, pool, time):
-    q = Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time')
-    
-    if Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time').get():
-        table = '<table>'
-        for session in q:
-            strstart_time = session.start_time.strftime('%H:%M').lstrip('0')
-            strend_time = session.end_time.strftime('%H:%M').lstrip('0')
-            timecell = "%s - %s" % (strstart_time, strend_time)
-            table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
-        table += '</table>'
-        return table
-    else:
-        return "<p>No more swimming here today, I'm afraid.</p>"
-    
+    @classmethod
+    def make_table(cls, day, pool, time):
+        if Session.here_now_sessions(day, pool, time).get():
+            table = '<table>'
+            for session in Session.here_now_sessions(day, pool, time):
+                strstart_time = session.start_time.strftime('%H:%M').lstrip('0')
+                strend_time = session.end_time.strftime('%H:%M').lstrip('0')
+                timecell = "%s - %s" % (strstart_time, strend_time)
+                table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
+            table += '</table>'
+            return table
+        else:
+            return "<p>No more swimming here today, I'm afraid.</p>"
+        
     
 def correct_for_dst(today):
     spring2011 = datetime.datetime(2011,03,27,1,0)
@@ -76,13 +78,13 @@ class Day(webapp.RequestHandler):
             else:
                 day = 'Monday'
 
-        George = make_table(day, "St George's Swimming Pools", earliest_end_time)
-        Mile = make_table(day, "Mile End Pools", earliest_end_time)
-        York = make_table(day, 'York Hall Leisure Centre', earliest_end_time)
-        Highbury = make_table(day, 'Highbury Leisure Centre', earliest_end_time)
-        Oasis_i = make_table(day, 'Oasis indoor', earliest_end_time)
-        Oasis_o = make_table(day, 'Oasis outdoor', earliest_end_time)
-        London = make_table(day, 'London Fields Lido', earliest_end_time)
+        George = Session.make_table(day, "St George's Swimming Pools", earliest_end_time)
+        Mile = Session.make_table(day, "Mile End Pools", earliest_end_time)
+        York = Session.make_table(day, 'York Hall Leisure Centre', earliest_end_time)
+        Highbury = Session.make_table(day, 'Highbury Leisure Centre', earliest_end_time)
+        Oasis_i = Session.make_table(day, 'Oasis indoor', earliest_end_time)
+        Oasis_o = Session.make_table(day, 'Oasis outdoor', earliest_end_time)
+        London = Session.make_table(day, 'London Fields Lido', earliest_end_time)
         
         template_values = {
             'day' : day,
