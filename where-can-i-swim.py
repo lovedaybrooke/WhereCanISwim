@@ -1,3 +1,4 @@
+# coding=utf-8
 import datetime
 import os
 import sys
@@ -108,10 +109,12 @@ class Day(webapp.RequestHandler):
 class gimmedata(webapp.RequestHandler):
     def get(self): 
         Session.create_session_record('Mile End Pools','Monday','6.30','9.00','With lanes')
+        Session.create_session_record('Mile End Pools','Monday','10.15','12.15',u'♀')
         Session.create_session_record('Mile End Pools','Monday','12.15','13.30','With lanes')
         Session.create_session_record('Mile End Pools','Monday','13.30','18.00','Some lanes')
         Session.create_session_record('Mile End Pools','Monday','18.00','22.00','With lanes')
         Session.create_session_record('Mile End Pools','Tuesday','6.30','13.30','With lanes')
+        Session.create_session_record('Mile End Pools','Tuesday','13.30','13.30',u'♀')
         Session.create_session_record('Mile End Pools','Tuesday','15.30','18.00','Some lanes')
         Session.create_session_record('Mile End Pools','Tuesday','18.00','22.00','With lanes')
         Session.create_session_record('Mile End Pools','Wednesday','6.30','9.00','With lanes')
@@ -121,6 +124,7 @@ class gimmedata(webapp.RequestHandler):
         Session.create_session_record('Mile End Pools','Thursday','6.30','9.00','With lanes')
         Session.create_session_record('Mile End Pools','Thursday','12.15','13.30','With lanes')
         Session.create_session_record('Mile End Pools','Thursday','13.30','19.00','Some lanes')
+        Session.create_session_record('Mile End Pools','Thursday','19.00','22.00',u'♀')
         Session.create_session_record('Mile End Pools','Friday','6.30','9.00','With lanes')
         Session.create_session_record('Mile End Pools','Friday','12.15','13.30','With lanes')
         Session.create_session_record('Mile End Pools','Friday','1.30','20.00','Some lanes')
@@ -241,6 +245,15 @@ class gimmedata(webapp.RequestHandler):
         Session.create_session_record('Highbury Leisure Centre','Monday','12.00','13.30','With lanes')
         Session.create_session_record('Highbury Leisure Centre','Monday','15.30','17.00','Limited lanes')
         Session.create_session_record('Highbury Leisure Centre','Monday','18.00','22.00','With lanes')
+        Session.create_session_record('York Hall Leisure Centre','Monday','12.20','13.20',u'♀')
+        Session.create_session_record('York Hall Leisure Centre','Tuesday','19.30','21.30',u'♀')
+        Session.create_session_record('York Hall Leisure Centre','Wednesday','12.20','13.20',u'♀')
+        Session.create_session_record('London Fields Lido','Tuesday','16.15','17.15',u'♀')
+        Session.create_session_record("St George's Swimming Pools",'Thursday','12.30','13.30',u'♀')
+        Session.create_session_record("St George's Swimming Pools",'Friday','19.30','21.30',u'♀')
+        Session.create_session_record("St George's Swimming Pools",'Saturday','17.30','18.30',u'♀')
+        Session.create_session_record('Oasis outdoor','Monday','20.30','21.30',u'♀')
+        Session.create_session_record('Highbury Leisure Centre','Tuesday','19.30','22.00',u'♀')
         self.redirect('/')
 
 
