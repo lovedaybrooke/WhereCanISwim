@@ -1,15 +1,8 @@
-# coding=utf-8
-import datetime
 import os
+import datetime
 import logging
-import sys
-for k in [k for k in sys.modules if k.startswith('django')]: 
-    del sys.modules[k] 
-from google.appengine.dist import use_library
-use_library('django', '1.2')
 from google.appengine.ext.webapp import template
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
+import webapp2
 from google.appengine.ext import db
 
 class Session(db.Model):
@@ -70,7 +63,7 @@ def correct_for_dst(today):
         return today
 
 
-class Day(webapp.RequestHandler):
+class Day(webapp2.RequestHandler):
     def get(self, urlday):
         dayofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
             'Saturday', 'Sunday']
@@ -118,7 +111,6 @@ class Day(webapp.RequestHandler):
             self.response.out.write(template.render(path, template_values))
 
        
-class gimmedata(webapp.RequestHandler):
     def get(self): 
         lanes = [
             {'pool': 'York Hall Leisure Centre', 'day': 'Monday', 
@@ -241,6 +233,7 @@ class gimmedata(webapp.RequestHandler):
             'end': '17.00', 'descrip': 'Shared with fun swim'}
             ]
         for lane in lanes:
+class gimmedata(webapp2.RequestHandler):
             try:
                 if not lane.get("descrip"):
                     lane["descrip"] = ''
@@ -253,18 +246,7 @@ class gimmedata(webapp.RequestHandler):
         self.redirect('/')
 
 
-application = webapp.WSGIApplication(
-                                     [('/gimmedata', gimmedata),
-                                     (r'/(.*)', Day)],
+application = webapp2.WSGIApplication([('/gimmedata', gimmedata),
+                                     (r'/(.*)', Day)
+                                      ],
                                      debug=True)
-
-
-def main():
-    run_wsgi_app(application)
-
-
-if __name__ == "__main__":
-    main()
-
-
-datetime.datetime.weekday(datetime.date.today())
