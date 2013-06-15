@@ -21,34 +21,42 @@ h1 {
  margin-bottom: 0;
 }
 
-div.day-nav {
+div.top-nav {
   width: 100%;
   text-align: center;
   overflow: auto;
 
 }
 
-p.day {
+div.top-nav p#day {
   text-align: center;
   width: 50%;
   float: left;
 }
 
-p#today-link {
+div.top-nav p#today-link {
   text-align: left;
   float: left;
   width: 25%;
 }
 
-p#tomorrow-link {
+div.top-nav p#tomorrow-link {
   text-align: right;
   float: left;
   width: 25%;
 }
 
-p#about {
+div.bottom-nav {
  text-align: center;
  margin-top: 30px;
+}
+
+div.bottom-nav p {
+ margin-top: 20px;
+}
+
+div.bottom-nav a {
+    margin: 0px 8px;
 }
 
 td {

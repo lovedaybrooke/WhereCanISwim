@@ -31,38 +31,45 @@ p, form tr td {
 }
 
 
-div.day-nav {
+div.top-nav {
   width: 100%;
   text-align: center;
-  overflow: auto;
-
 }
 
-p.day {
+div.top-nav p#day {
   text-align: center;
   width: 40%;
   float: left;
+  font-size: 16px;
 }
 
-p#today-link {
+div.top-nav p#today-link, div.top-nav p#tomorrow-link {
   text-align: left;
   float: left;
   width: 30%;
+  font-size: 12px;
+  padding-top: 3px;
 }
 
-p#tomorrow-link {
+div.top-nav p#tomorrow-link {
   text-align: right;
-  float: left;
-  width: 30%;
 }
 
-p.day, p#today-link, p#tomorrow-link {
-  font-size: 14px;
-}
-
-p#about {
+div.bottom-nav {
  text-align: center;
  margin-top: 30px;
+}
+
+div.bottom-nav p {
+ margin-top: 20px;
+}
+
+div.bottom-nav p.about {
+    font-size: 16px;
+}
+
+div.bottom-nav a {
+    margin: 0px 3px;
 }
 
 td {
@@ -74,6 +81,3 @@ td {
 tr.odd td {
   background-color: #A8E2FF;
 }
-
-
-
