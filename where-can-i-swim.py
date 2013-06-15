@@ -103,6 +103,9 @@ class Day(webapp.RequestHandler):
             path = os.path.join(os.path.dirname(__file__),'tomorrow.html')
             self.response.out.write(template.render(path, template_values))
         else:
+            today_index = dayofWeek.index(day)
+            template_values['previous'] = dayofWeek[(today_index-1)%7]
+            template_values['next'] = dayofWeek[(today_index+1)%7]
             path = os.path.join(os.path.dirname(__file__),'day.html')
             self.response.out.write(template.render(path, template_values))
 
