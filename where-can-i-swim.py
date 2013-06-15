@@ -45,72 +45,59 @@ class Session(db.Model):
         else:
             return "<p>No more swimming here today, I'm afraid.</p>"
         
-    
-def correct_for_dst(today):
-    spring2011 = datetime.datetime(2011,03,27,1,0)
-    autumn2011 = datetime.datetime(2011,10,30,2,0)
-    spring2012 = datetime.datetime(2012,03,25,1,0)
-    autumn2011 = datetime.datetime(2012,10,28,2,0)
-    spring2013 = datetime.datetime(2013,03,31,1,0)
-    autumn2013 = datetime.datetime(2013,10,27,2,0)
-    spring2014 = datetime.datetime(2014,03,30,1,0)
-    autumn2014 = datetime.datetime(2014,10,26,2,0)
-    spring2015 = datetime.datetime(2015,03,29,1,0)
-    autumn2015 = datetime.datetime(2015,10,25,2,0)
-    spring2016 = datetime.datetime(2015,03,27,1,0)
-    autumn2016 = datetime.datetime(2015,10,30,2,0)
-    if today >= spring2011 and today <= autumn2011:
-        return today + datetime.timedelta(0,3600)
-    else:
-        return today
-
+    @classmethod
+    def make_all_tables(cls, day, time):
+        pools = [session.pool for session in Session.all()]
+        return {pool[:4]: cls.make_table(day, pool, time) for pool in pools}
+        
 
 class Day(webapp2.RequestHandler):
     def get(self, urlday):
-        dayofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
+        day_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
             'Saturday', 'Sunday']
         earliest_end_time = datetime.time(0)
-        day = urlday 
+        today = Day.correct_for_dst(datetime.datetime.today())
         
         if urlday == 'today' or urlday == '':
-            todaynow = correct_for_dst(datetime.datetime.today())
-            day = dayofWeek[datetime.datetime.weekday(todaynow)]
-            now = todaynow.time()
-            earliest_end_time = (todaynow + datetime.timedelta(hours=1)).time()
+            day_str = day_of_week[today.weekday()]
+            html_page = 'today.html'
+            earliest_end_time = (today + datetime.timedelta(hours=1)).time()
         elif urlday == 'tomorrow':
-            if datetime.datetime.weekday(datetime.date.today()) < 6:
-                day = dayofWeek[datetime.datetime.weekday(
-                    datetime.date.today()) + 1]
-            else:
-                day = 'Monday'
-
-        Mile = Session.make_table(day, "Mile End Pools", earliest_end_time)
-        York = Session.make_table(day, 'York Hall Leisure Centre',
-            earliest_end_time)
-        London = Session.make_table(day, 'London Fields Lido',
-            earliest_end_time)
-        Iron = Session.make_table(day, 'Ironmonger Row', earliest_end_time)
-        
-        template_values = {
-            'day' : day,
-            'Mile': Mile,
-            'Iron': Iron,
-            'York': York,
-            'London' : London
-            }
-
-        if urlday == 'today' or urlday == '':
-            path = os.path.join(os.path.dirname(__file__),'today.html')
-            self.response.out.write(template.render(path, template_values))
-        elif urlday == 'tomorrow':
-            path = os.path.join(os.path.dirname(__file__),'tomorrow.html')
-            self.response.out.write(template.render(path, template_values))
+            day_str = day_of_week[(today.weekday()+1)%7]
+            html_page = 'tomorrow.html'
         else:
-            today_index = dayofWeek.index(day)
-            template_values['previous'] = dayofWeek[(today_index-1)%7]
-            template_values['next'] = dayofWeek[(today_index+1)%7]
-            path = os.path.join(os.path.dirname(__file__),'day.html')
-            self.response.out.write(template.render(path, template_values))
+            day_str = urlday
+            html_page = 'day.html'
+        
+        template_values = Session.make_all_tables(day_str, earliest_end_time)
+        template_values['day'] = day_str
+        template_values['previous'] = day_of_week[(
+            day_of_week.index(day_str)-1)%7]
+        template_values['next'] = day_of_week[(day_of_week.index(day_str)+1)%7]
+        
+        logging.info(template_values)
+        
+        path = os.path.join(os.path.dirname(__file__), html_page)
+        self.response.out.write(template.render(path, template_values))
+    
+    @staticmethod
+    def correct_for_dst(today):
+        spring2011 = datetime.datetime(2011,03,27,1,0)
+        autumn2011 = datetime.datetime(2011,10,30,2,0)
+        spring2012 = datetime.datetime(2012,03,25,1,0)
+        autumn2011 = datetime.datetime(2012,10,28,2,0)
+        spring2013 = datetime.datetime(2013,03,31,1,0)
+        autumn2013 = datetime.datetime(2013,10,27,2,0)
+        spring2014 = datetime.datetime(2014,03,30,1,0)
+        autumn2014 = datetime.datetime(2014,10,26,2,0)
+        spring2015 = datetime.datetime(2015,03,29,1,0)
+        autumn2015 = datetime.datetime(2015,10,25,2,0)
+        spring2016 = datetime.datetime(2015,03,27,1,0)
+        autumn2016 = datetime.datetime(2015,10,30,2,0)
+        if today >= spring2011 and today <= autumn2011:
+            return today + datetime.timedelta(hour=1)
+        else:
+            return today
 
        
 class gimmedata(webapp2.RequestHandler):
