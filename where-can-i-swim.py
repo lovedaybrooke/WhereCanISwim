@@ -1,6 +1,7 @@
 # coding=utf-8
 import datetime
 import os
+import logging
 import sys
 for k in [k for k in sys.modules if k.startswith('django')]: 
     del sys.modules[k] 
@@ -55,6 +56,8 @@ def correct_for_dst(today):
     autumn2014 = datetime.datetime(2014,10,26,2,0)
     spring2015 = datetime.datetime(2015,03,29,1,0)
     autumn2015 = datetime.datetime(2015,10,25,2,0)
+    spring2016 = datetime.datetime(2015,03,27,1,0)
+    autumn2016 = datetime.datetime(2015,10,30,2,0)
     if today >= spring2011 and today <= autumn2011:
         return today + datetime.timedelta(0,3600)
     else:
@@ -78,22 +81,18 @@ class Day(webapp.RequestHandler):
             else:
                 day = 'Monday'
 
-        George = Session.make_table(day, "St George's Swimming Pools", earliest_end_time)
         Mile = Session.make_table(day, "Mile End Pools", earliest_end_time)
-        York = Session.make_table(day, 'York Hall Leisure Centre', earliest_end_time)
-        Highbury = Session.make_table(day, 'Highbury Leisure Centre', earliest_end_time)
-        Oasis_i = Session.make_table(day, 'Oasis indoor', earliest_end_time)
-        Oasis_o = Session.make_table(day, 'Oasis outdoor', earliest_end_time)
-        London = Session.make_table(day, 'London Fields Lido', earliest_end_time)
+        York = Session.make_table(day, 'York Hall Leisure Centre',
+            earliest_end_time)
+        London = Session.make_table(day, 'London Fields Lido',
+            earliest_end_time)
+        Iron = Session.make_table(day, 'Ironmonger Row', earliest_end_time)
         
         template_values = {
             'day' : day,
             'Mile': Mile,
-            'George': George,
+            'Iron': Iron,
             'York': York,
-            'Highbury' : Highbury,
-            'Oasis_i' : Oasis_i,
-            'Oasis_o' : Oasis_o,
             'London' : London
             }
 
@@ -110,152 +109,136 @@ class Day(webapp.RequestHandler):
        
 class gimmedata(webapp.RequestHandler):
     def get(self): 
-        Session.create_session_record('Mile End Pools','Monday','6.30','9.00','With lanes')
-        Session.create_session_record('Mile End Pools','Monday','10.15','12.15',u'♀')
-        Session.create_session_record('Mile End Pools','Monday','12.15','13.30','With lanes')
-        Session.create_session_record('Mile End Pools','Monday','13.30','18.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Monday','18.00','22.00','With lanes')
-        Session.create_session_record('Mile End Pools','Tuesday','6.30','13.30','With lanes')
-        Session.create_session_record('Mile End Pools','Tuesday','13.30','13.30',u'♀')
-        Session.create_session_record('Mile End Pools','Tuesday','15.30','18.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Tuesday','18.00','22.00','With lanes')
-        Session.create_session_record('Mile End Pools','Wednesday','6.30','9.00','With lanes')
-        Session.create_session_record('Mile End Pools','Wednesday','12.15','13.30','With lanes')
-        Session.create_session_record('Mile End Pools','Wednesday','1.30','18.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Wednesday','6.00','22.00','With lanes')
-        Session.create_session_record('Mile End Pools','Thursday','6.30','9.00','With lanes')
-        Session.create_session_record('Mile End Pools','Thursday','12.15','13.30','With lanes')
-        Session.create_session_record('Mile End Pools','Thursday','13.30','19.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Thursday','19.00','22.00',u'♀')
-        Session.create_session_record('Mile End Pools','Friday','6.30','9.00','With lanes')
-        Session.create_session_record('Mile End Pools','Friday','12.15','13.30','With lanes')
-        Session.create_session_record('Mile End Pools','Friday','1.30','20.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Friday','8.00','22.00','With lanes')
-        Session.create_session_record('Mile End Pools','Saturday','9.00','11.00','With lanes')
-        Session.create_session_record('Mile End Pools','Saturday','11.00','17.00','Some lanes')
-        Session.create_session_record('Mile End Pools','Sunday','9.00','17.00','Some lanes')
-        Session.create_session_record('York Hall Leisure Centre','Monday','7.00','9.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Monday','13.30','15.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Monday','15.30','20.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Tuesday','7.00','9.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Tuesday','15.30','19.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Tuesday','12.30','13.30','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Wednesday','7.00','9.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Wednesday','15.30','17.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Thursday','7.00','9.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Thursday','12.30','13.30','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Thursday','13.30','19.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Thursday','19.30','21.30','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Friday','7.00','9.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Friday','12.30','13.30','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Friday','15.30','17.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Saturday','8.00','20.30','May be lanes')
-        Session.create_session_record('York Hall Leisure Centre','Sunday','8.00','20.30','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Monday','7.00','9.00','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Monday','12.30','13.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Monday','16.00','19.00','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Monday','20.30','21.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Tuesday','7.00','9.00','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Tuesday','12.30','13.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Tuesday','15.30','19.00','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Tuesday','19.00','21.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Wednesday','7.00','9.00','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Wednesday','12.30','13.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Wednesday','13.30','20.30','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Wednesday','20.30','21.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Thursday','7.00','8.45','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Thursday','16.00','19.00','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Friday','7.00','8.45','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Friday','12.30','13.30','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Friday','16.00','19.30','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Saturday','8.00','9.00','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Saturday','9.00','17.30','May be lanes')
-        Session.create_session_record("St George's Swimming Pools",'Sunday','8.00','9.00','With lanes')
-        Session.create_session_record("St George's Swimming Pools",'Sunday','9.00','18.00','With lanes')
-        Session.create_session_record('London Fields Lido','Monday','15.00','16.00','With lanes')
-        Session.create_session_record('London Fields Lido','Tuesday','9.30','16.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Thursday','8.00','9.30','With lanes')
-        Session.create_session_record('London Fields Lido','Saturday','8.00','10.00','With lanes')
-        Session.create_session_record('London Fields Lido','Friday','7.45','9.30','With lanes')
-        Session.create_session_record('London Fields Lido','Sunday','8.00','10.00','With lanes')
-        Session.create_session_record('London Fields Lido','Wednesday','8.00','9.30','With lanes')
-        Session.create_session_record('London Fields Lido','Monday','8.00','9.30','With lanes')
-        Session.create_session_record('London Fields Lido','Monday','9.30','15.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Saturday','10.00','16.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Tuesday','8.00','9.30','With lanes')
-        Session.create_session_record('London Fields Lido','Sunday','10.00','16.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Wednesday','9.30','15.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Wednesday','15.00','16.00','With lanes')
-        Session.create_session_record('London Fields Lido','Thursday','9.30','15.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Thursday','15.00','16.00','With lanes')
-        Session.create_session_record('London Fields Lido','Friday','9.30','15.00','May be lanes')
-        Session.create_session_record('London Fields Lido','Friday','15.00','16.00','With lanes')
-        Session.create_session_record('Oasis indoor','Sunday','9.30','17.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Saturday','9.30','15.30','May be lanes')
-        Session.create_session_record('Oasis indoor','Saturday','16.00','17.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Friday','6.30','9.00','With lanes')
-        Session.create_session_record('Oasis indoor','Friday','9.00','14.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Friday','15.00','16.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Thursday','6.30','9.00','With lanes')
-        Session.create_session_record('Oasis indoor','Thursday','9.00','9.30','May be lanes')
-        Session.create_session_record('Oasis indoor','Thursday','12.00','14.00','With lanes')
-        Session.create_session_record('Oasis indoor','Thursday','15.30','19.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Wednesday','6.30','9.00','With lanes')
-        Session.create_session_record('Oasis indoor','Wednesday','9.00','14.30','May be lanes')
-        Session.create_session_record('Oasis indoor','Wednesday','15.30','16.30','With lanes')
-        Session.create_session_record('Oasis indoor','Wednesday','17.30','18.30','May be lanes')
-        Session.create_session_record('Oasis indoor','Tuesday','6.30','9.00','With lanes')
-        Session.create_session_record('Oasis indoor','Tuesday','9.00','17.30','May be lanes')
-        Session.create_session_record('Oasis indoor','Tuesday','20.00','20.30','With lanes')
-        Session.create_session_record('Oasis indoor','Tuesday','20.30','21.00','With lanes')
-        Session.create_session_record('Oasis indoor','Monday','6.30','9.00','With lanes')
-        Session.create_session_record('Oasis indoor','Monday','9.00','11.00','May be lanes')
-        Session.create_session_record('Oasis indoor','Monday','15.00','18.30','With lanes')
-        Session.create_session_record('Oasis outdoor','Monday','7.30','21.00','May be lanes')
-        Session.create_session_record('Oasis outdoor','Tuesday','7.30','21.00','May be lanes')
-        Session.create_session_record('Oasis outdoor','Wednesday','7.30','21.00','May be lanes')
-        Session.create_session_record('Oasis outdoor','Thursday','7.30','20.00','May be lanes')
-        Session.create_session_record('Oasis outdoor','Friday','7.30','21.00','May be lanes')
-        Session.create_session_record('Oasis outdoor','Saturday','9.30','17.30','May be lanes')
-        Session.create_session_record('Oasis outdoor','Sunday','9.30','17.30','May be lanes')
-        Session.create_session_record('Highbury Leisure Centre','Sunday','7.30','10.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Sunday','10.00','18.00','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Sunday','18.00','19.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Sunday','21.00','22.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Sunday','19.00','21.00','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Saturday','7.30','10.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Saturday','11.30','19.30','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Friday','6.30','9.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Friday','12.00','13.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Friday','18.00','21.00','May be lanes')
-        Session.create_session_record('Highbury Leisure Centre','Friday','15.30','18.00','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Thursday','6.30','9.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Thursday','12.00','13.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Thursday','18.00','19.30','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Thursday','19.30','22.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','6.30','9.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','12.00','13.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','15.30','16.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','16.30','17.00','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','17.00','18.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','18.00','19.45','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Wednesday','19.45','22.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Tuesday','6.30','9.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Tuesday','12.00','13.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Tuesday','16.30','19.30','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Monday','6.30','9.00','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Monday','12.00','13.30','With lanes')
-        Session.create_session_record('Highbury Leisure Centre','Monday','15.30','17.00','Limited lanes')
-        Session.create_session_record('Highbury Leisure Centre','Monday','18.00','22.00','With lanes')
-        Session.create_session_record('York Hall Leisure Centre','Monday','12.20','13.20',u'♀')
-        Session.create_session_record('York Hall Leisure Centre','Tuesday','19.30','21.30',u'♀')
-        Session.create_session_record('York Hall Leisure Centre','Wednesday','12.20','13.20',u'♀')
-        Session.create_session_record('London Fields Lido','Tuesday','16.15','17.15',u'♀')
-        Session.create_session_record("St George's Swimming Pools",'Thursday','12.30','13.30',u'♀')
-        Session.create_session_record("St George's Swimming Pools",'Friday','19.30','21.30',u'♀')
-        Session.create_session_record("St George's Swimming Pools",'Saturday','17.30','18.30',u'♀')
-        Session.create_session_record('Oasis outdoor','Monday','20.30','21.30',u'♀')
-        Session.create_session_record('Highbury Leisure Centre','Tuesday','19.30','22.00',u'♀')
+        lanes = [
+            {'pool': 'York Hall Leisure Centre', 'day': 'Monday', 
+            'start': '7.00', 'end': '9.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Monday',
+            'start': '9.00', 'end': '12.20', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Monday',
+            'start': '12.20', 'end': '13.20', 'descrip': u'♀'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Monday',
+            'start': '13.20', 'end':'20.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Tuesday',
+            'start': '7.00', 'end': '9.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Tuesday',
+            'start': '9.00', 'end': '12.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Tuesday',
+            'start': '12.30', 'end': '13.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Tuesday',
+            'start': '13.30', 'end':'15.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Tuesday',
+            'start': '15.30', 'end':'17.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Wednesday',
+            'start': '7.00', 'end': '9.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Wednesday',
+            'start': '9.00', 'end': '12.20', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Wednesday',
+            'start': '12.20', 'end': '13.20', 'descrip': u'♀'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Wednesday',
+            'start': '13.30', 'end':'17.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Thursday',
+            'start': '7.00', 'end': '9.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Thursday',
+            'start': '9.00', 'end': '12.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Thursday',
+            'start': '12.30', 'end': '13.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Thursday',
+            'start': '13.30', 'end':'19.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Thursday',
+            'start': '19.30', 'end': '21.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Friday',
+            'start': '7.00', 'end': '9.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Friday',
+            'start': '9.00', 'end': '12.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Friday',
+            'start': '12.30', 'end': '13.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Friday',
+            'start': '13.30', 'end':'15.30', 'descrip': 'Shared with school'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Friday',
+            'start': '15.30', 'end': '17.30'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Saturday',
+            'start': '8.00', 'end': '12.00'},
+            {'pool': 'York Hall Leisure Centre', 'day': 'Sunday',
+            'start': '8.00', 'end': '15.30'},
+            {'pool': 'Mile End Pools', 'day': 'Monday', 'start': '6.30',
+            'end': '10.15'},
+            {'pool': 'Mile End Pools', 'day': 'Monday', 'start': '10.15',
+            'end': '12.15', 'descrip': u'♀'},
+            {'pool': 'Mile End Pools', 'day': 'Monday', 'start': '12.15',
+            'end': '22.00'},
+            {'pool': 'Mile End Pools', 'day': 'Tuesday', 'start': '6.30',
+            'end': '13.30'},
+            {'pool': 'Mile End Pools', 'day': 'Tuesday', 'start': '13.30',
+            'end': '15.30', 'descrip': u'♀'},
+            {'pool': 'Mile End Pools', 'day': 'Tuesday', 'start': '15.30',
+            'end': '22.00'},
+            {'pool': 'Mile End Pools', 'day': 'Wednesday', 'start': '6.30',
+            'end': '22.00'},
+            {'pool': 'Mile End Pools', 'day': 'Thursday', 'start': '6.30',
+            'end': '19.00'},
+            {'pool': 'Mile End Pools', 'day': 'Thursday', 'start': '19.00',
+            'end': '22.00', 'descrip': u'♀'},
+            {'pool': 'Mile End Pools', 'day': 'Friday', 'start': '6.30',
+            'end': '22.00'},
+            {'pool': 'Mile End Pools', 'day': 'Saturday', 'start': '9.00',
+            'end': '17.00'},
+            {'pool': 'Mile End Pools', 'day': 'Sunday', 'start': '9.00',
+            'end': '17.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Monday', 'start': '6.30',
+            'end': '21.30'},
+            {'pool': 'Ironmonger Row', 'day': 'Tuesday', 'start': '6.30',
+            'end': '14.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Tuesday', 'start': '14.00',
+            'end': '15.00', 'descrip': 'Shared with school'},
+            {'pool': 'Ironmonger Row', 'day': 'Tuesday', 'start': '15.00',
+            'end': '19.30'},
+            {'pool': 'Ironmonger Row', 'day': 'Tuesday', 'start': '19.30',
+            'end': '21.30', 'descrip': u'♀'},
+            {'pool': 'Ironmonger Row', 'day': 'Wednesday', 'start': '6.30',
+            'end': '21.30'},
+            {'pool': 'Ironmonger Row', 'day': 'Thursday', 'start': '6.30',
+            'end': '20.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Friday', 'start': '6.30',
+            'end': '19.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Saturday', 'start': '9.00',
+            'end': '10.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Saturday', 'start': '10.00',
+            'end': '18.00', 'descrip': 'Shared with fun swim'},
+            {'pool': 'Ironmonger Row', 'day': 'Sunday', 'start': '9.00',
+            'end': '10.00'},
+            {'pool': 'Ironmonger Row', 'day': 'Sunday', 'start': '10.00',
+            'end': '18.00', 'descrip': 'Shared with fun swim'},
+            {'pool': 'London Fields Lido', 'day': 'Monday', 'start': '6.30',
+            'end': '20.00'},
+            {'pool': 'London Fields Lido', 'day': 'Tuesday', 'start': '6.30',
+            'end': '19.00'},
+            {'pool': 'London Fields Lido', 'day': 'Tuesday', 'start': '19.00',
+            'end': '20.00', 'descrip': u'♀'},
+            {'pool': 'London Fields Lido', 'day': 'Wednesday', 'start': '6.30',
+            'end': '19.00'},
+            {'pool': 'London Fields Lido', 'day': 'Thursday', 'start': '6.30',
+            'end': '20.00'},
+            {'pool': 'London Fields Lido', 'day': 'Friday', 'start': '6.30',
+            'end': '20.00'},
+            {'pool': 'London Fields Lido', 'day': 'Saturday', 'start': '8.00',
+            'end': '10.00'},
+            {'pool': 'London Fields Lido', 'day': 'Saturday', 'start': '10.00',
+            'end': '17.00', 'descrip': 'Shared with fun swim'},
+            {'pool': 'London Fields Lido', 'day': 'Sunday', 'start': '8.00',
+            'end': '10.00'},
+            {'pool': 'London Fields Lido', 'day': 'Sunday', 'start': '10.00',
+            'end': '17.00', 'descrip': 'Shared with fun swim'}
+            ]
+        for lane in lanes:
+            try:
+                if not lane.get("descrip"):
+                    lane["descrip"] = ''
+                Session.create_session_record(lane["pool"], lane["day"],
+                    lane["start"], lane["end"], lane["descrip"])
+            except:
+                logging.info(lane["pool"] + ", " + lane["day"] + ", " +
+                    lane["start"] + ", " + lane["end"] + ", " +
+                    lane["descrip"])
         self.redirect('/')
 
 

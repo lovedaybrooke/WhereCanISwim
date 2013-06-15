@@ -1,24 +1,16 @@
 {% extends "layout.html" %}
 
 	{% block timetables %}
-	    <h2>Mile End Leisure Centre</h2>
-	    {{ Mile|safe }}
-	    
-	    <h2>St George's Swimming Pools</h2>
-        {{ George|safe }}
-        
         <h2>York Hall Leisure Centre</h2>
 	    {{ York|safe }}
-        
+
+        <h2>Ironmonger Row</h2>
+        {{ London|safe }}
+
         <h2>London Fields Lido</h2>
         {{ London|safe }}
-	
-        <h2>Highbury Leisure Centre</h2>
-        {{ Highbury|safe }}
-        
-        <h2>Oasis indoor</h2>
-        {{ Oasis_i|safe }}
 
-        <h2>Oasis outdoor</h2>
-        {{ Oasis_o|safe }}
+	    <h2>Mile End Leisure Centre</h2>
+	    {{ Mile|safe }}        
+	
 	{% endblock %}
