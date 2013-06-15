@@ -28,17 +28,23 @@ class Session(db.Model):
     
     @classmethod
     def here_now_sessions(cls, day, pool, time):
-        return Session.all().filter('day =', day).filter('pool =', pool).filter('end_time >',time).order('end_time')
+        return Session.all().filter('day =', day).filter(
+            'pool =', pool).filter('end_time >',time).order('end_time')
     
     @classmethod
     def make_table(cls, day, pool, time):
-        if Session.here_now_sessions(day, pool, time).get():
+        if cls.here_now_sessions(day, pool, time).get():
             table = '<table>'
-            for session in Session.here_now_sessions(day, pool, time):
-                strstart_time = session.start_time.strftime('%H:%M').lstrip('0')
-                strend_time = session.end_time.strftime('%H:%M').lstrip('0')
-                timecell = "%s - %s" % (strstart_time, strend_time)
-                table += '<tr><td>' + timecell + '</td><td>' + session.lanes + '</td></tr>'
+            for session in cls.here_now_sessions(day, pool, time):
+                str_start_time = session.start_time.strftime(
+                    '%H:%M').lstrip('0')
+                str_end_time = session.end_time.strftime('%H:%M').lstrip('0')
+                timecell = "%s - %s" % (str_start_time, str_end_time)
+                table += '<tr><td>'
+                table += timecell
+                table += '</td><td>'
+                table += session.lanes
+                table += '</td></tr>'
             table += '</table>'
             return table
         else:
@@ -66,7 +72,8 @@ def correct_for_dst(today):
 
 class Day(webapp.RequestHandler):
     def get(self, urlday):
-        dayofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        dayofWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 
+            'Saturday', 'Sunday']
         earliest_end_time = datetime.time(0)
         day = urlday 
         
@@ -77,7 +84,8 @@ class Day(webapp.RequestHandler):
             earliest_end_time = (todaynow + datetime.timedelta(hours=1)).time()
         elif urlday == 'tomorrow':
             if datetime.datetime.weekday(datetime.date.today()) < 6:
-                day = dayofWeek[datetime.datetime.weekday(datetime.date.today()) + 1]
+                day = dayofWeek[datetime.datetime.weekday(
+                    datetime.date.today()) + 1]
             else:
                 day = 'Monday'
 
