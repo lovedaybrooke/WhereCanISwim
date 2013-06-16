@@ -80,19 +80,31 @@ class Day(webapp2.RequestHandler):
 
     @staticmethod
     def correct_for_dst(today):
-        spring2011 = datetime.datetime(2011, 03, 27, 1, 0)
-        autumn2011 = datetime.datetime(2011, 10, 30, 2, 0)
-        spring2012 = datetime.datetime(2012, 03, 25, 1, 0)
-        autumn2011 = datetime.datetime(2012, 10, 28, 2, 0)
-        spring2013 = datetime.datetime(2013, 03, 31, 1, 0)
-        autumn2013 = datetime.datetime(2013, 10, 27, 2, 0)
-        spring2014 = datetime.datetime(2014, 03, 30, 1, 0)
-        autumn2014 = datetime.datetime(2014, 10, 26, 2, 0)
-        spring2015 = datetime.datetime(2015, 03, 29, 1, 0)
-        autumn2015 = datetime.datetime(2015, 10, 25, 2, 0)
-        spring2016 = datetime.datetime(2015, 03, 27, 1, 0)
-        autumn2016 = datetime.datetime(2015, 10, 30, 2, 0)
-        if today >= spring2011 and today <= autumn2011:
+        clock_switches = {
+            "2013": {
+                "spring": datetime.datetime(2013, 03, 31, 1),
+                "autumn": datetime.datetime(2013, 10, 27, 2)
+                },
+            "2014": {
+                "spring": datetime.datetime(2014, 03, 30, 1),
+                "autumn": datetime.datetime(2014, 10, 26, 2)
+                },
+            "2015": {
+                "spring": datetime.datetime(2015, 03, 29, 1),
+                "autumn": datetime.datetime(2015, 10, 25, 2)
+                },
+            "2016": {
+                "spring": datetime.datetime(2015, 03, 27, 1),
+                "autumn": datetime.datetime(2015, 10, 30, 2)
+                }
+            }
+        this_year = today.year()
+
+        in_daylight_savings_time = (
+            today >= clock_switches[this_year]["spring"] and 
+            today <= clock_switches[this_year]["autumn"])
+
+        if in_daylight_savings_time:
             return today + datetime.timedelta(hour=1)
         else:
             return today
