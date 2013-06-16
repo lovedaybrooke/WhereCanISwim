@@ -6,15 +6,15 @@ threadsafe: false
 
 handlers:
 - url: /stylesheets
-  static_dir: stylesheets
+  static_dir: static/stylesheets
 
 - url: /about
-  static_files: about.html
-  upload: about.html
+  static_files: static/templates/about.html
+  upload: static/templates/about.html
 
 - url: /favicon.ico
-  static_files: favicon.ico
-  upload: favicon.ico
+  static_files: static/templates/favicon.ico
+  upload: static/templates/favicon.ico
   
 - url: /update-sessions
   script: updateSessions.application

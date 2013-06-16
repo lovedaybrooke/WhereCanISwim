@@ -62,14 +62,14 @@ class Day(webapp2.RequestHandler):
 
         if urlday == 'today' or urlday == '':
             day_str = day_of_week[today.weekday()]
-            html_page = 'today.html'
+            html_page = 'static/templates/today.html'
             earliest_end_time = (today + datetime.timedelta(hours=1)).time()
         elif urlday == 'tomorrow':
             day_str = day_of_week[(today.weekday() + 1) % 7]
-            html_page = 'tomorrow.html'
+            html_page = 'static/templates/tomorrow.html'
         else:
             day_str = urlday
-            html_page = 'day.html'
+            html_page = 'static/templates/day.html'
 
         template_values = Session.get_all_session_data(day_str,
             earliest_end_time)
