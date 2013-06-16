@@ -1,24 +1,26 @@
 <html>
  <head>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <link type="text/css" rel="stylesheet" href="/static/stylesheets/main.css" />
     <!-- Start iPhone -->
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
     <!-- <link rel="apple-touch-icon" href="/iphone.png" /> -->
-    <link media="only screen and (max-device-width: 320px)" href="/stylesheets/iphone.css" type= "text/css" rel="stylesheet" />
+    <link media="only screen and (max-device-width: 320px)" href="/static/stylesheets/iphone.css" type= "text/css" rel="stylesheet" />
     <!-- End iPhone -->
  </head>
  <body>
-   <h1>Where can I swim?</h1>
-   <div class="top-nav">
-       {% block day %}
+    <div class="content">
+       <h1>Where can I swim?</h1>
+       <div class="top-nav">
+           {% block day %}
+           {% endblock %}
+       </div> <!-- ends .top-nav -->
+       {% block timetables %}
        {% endblock %}
-   </div>
-   {% block timetables %}
-   {% endblock %}
-   <div class="bottom-nav">
-       <p id="today-tomorrow"><a href="/">Today</a> | <a href="/tomorrow">Tomorrow</a></p>
-       <p id="days" id="days"><a href="/Monday">Mon</a> | <a href="/Tuesday">Tues</a> | <a href="/Wednesday">Weds</a> | <a href="/Thursday">Thurs</a> | <a href="/Friday">Fri</a> | <a href="/Saturday">Sat</a> | <a href="/Sunday">Sun</a></p>
-       <p id="about"><a href="/about">About</a></p>
-    </div>
+       <div class="bottom-nav">
+           <p id="today-tomorrow"><a href="/">Today</a> | <a href="/tomorrow">Tomorrow</a></p>
+           <p id="days" id="days"><a href="/Monday">Mon</a> | <a href="/Tuesday">Tues</a> | <a href="/Wednesday">Weds</a> | <a href="/Thursday">Thurs</a> | <a href="/Friday">Fri</a> | <a href="/Saturday">Sat</a> | <a href="/Sunday">Sun</a></p>
+           <p id="about"><a href="/about">About</a></p>
+        </div> <!-- ends .bottom-nav -->
+    </div> <!-- ends .content -->
  </body>
 </html>

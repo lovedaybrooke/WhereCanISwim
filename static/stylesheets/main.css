@@ -1,12 +1,21 @@
 /* Basic layout */
 
 body {
-  font-family: Verdana, Helvetica, sans-serif;
-  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  background-image: url('/static/images/wave.png'); 
 }
 
-div#content{
-width: 100%;
+div.content {
+  width: 400px;
+  margin: 10px auto;
+  padding: 10px 40px 40px 40px;
+  background-color: #fff;
+  border: 1px solid #DDDDDD;
+  box-shadow: 2px 2px 3px #99B2BE;
+}
+
+a, a:visited {
+  color: #007DBA;
 }
 
 
@@ -19,7 +28,7 @@ h1 {
 }
 
 div.top-nav {
-  width: 100%;
+  width: 400px;
   text-align: center;
   overflow: auto;
 }
@@ -48,12 +57,13 @@ h2 {
 
 td {
   width: 200px;
-  background-color: #6BCEFF;
+  background-color: #6EC9F5;
   text-align: center;
+  padding: 5px 0px;
 }
 
 tr:nth-child(odd) td {
-  background-color: #A8E2FF;
+  background-color: #ADE2FF;
 }
 
 

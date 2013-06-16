@@ -1,7 +1,32 @@
+/* Basics */
+
+body {
+  background-image: none;
+  background-color: #ffffff; 
+}
+
+div.content {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  box-shadow: none;
+}
+
+
+
 /* Header and top navigation */
 
 h1 {
  font-size: 24px;
+}
+
+div.top-nav {
+  width: 100%;
+}
+
+div.top-nav p {
+  margin-bottom: 0px;
 }
 
 div.top-nav p#day {
@@ -11,7 +36,7 @@ div.top-nav p#day {
 
 div.top-nav p#today-link, div.top-nav p#tomorrow-link {
   width: 30%;
-  font-size: 12px;
+  font-size: 14px;
   padding-top: 3px;
 }
 
@@ -23,7 +48,8 @@ h2 {
 }
 
 p, form tr td {
-  font-size: 12px;
+  font-size: 14px;
+  padding: 3px 0px;
 }
 
 
@@ -31,5 +57,11 @@ p, form tr td {
 /* Bottom navigation */
 
 div.bottom-nav a {
+    font-size: 14px;
     margin: 0px 3px;
+}
+
+div.bottom-nav p#today-tomorrow a {
+    font-size: 16px;
+    margin: 0px 5px;
 }

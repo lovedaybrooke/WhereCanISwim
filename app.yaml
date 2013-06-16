@@ -5,16 +5,20 @@ api_version: 1
 threadsafe: false
 
 handlers:
-- url: /stylesheets
+- url: /static/stylesheets
   static_dir: static/stylesheets
+
+- url: /static/images
+  static_dir: static/images
 
 - url: /about
   static_files: static/templates/about.html
   upload: static/templates/about.html
 
+  
 - url: /favicon.ico
-  static_files: static/templates/favicon.ico
-  upload: static/templates/favicon.ico
+  static_files: /images/favicon.ico
+  upload: /images/favicon.ico
   
 - url: /update-sessions
   script: updateSessions.application
