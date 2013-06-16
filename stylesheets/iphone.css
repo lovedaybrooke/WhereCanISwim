@@ -6,6 +6,7 @@ h1 {
 
 div.top-nav p#day {
   width: 40%;
+  font-size: 110%;
 }
 
 div.top-nav p#today-link, div.top-nav p#tomorrow-link {
