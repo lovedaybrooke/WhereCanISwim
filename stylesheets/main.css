@@ -1,10 +1,8 @@
-body {
-  font-family: Verdana, Helvetica, sans-serif;
-  background-color: #DDDDDD;
-}
+/* Basic layout */
 
 body {
-background-color: #fff;
+  font-family: Verdana, Helvetica, sans-serif;
+  background-color: #fff;
 }
 
 div#content{
@@ -12,11 +10,10 @@ width: 100%;
 }
 
 
-h1, h2 {
- color: #009CEB;
-}
+/* Header and top navigation */
 
 h1 {
+ color: #009CEB;
  text-align: center;
  margin-bottom: 0;
 }
@@ -25,16 +22,14 @@ div.top-nav {
   width: 100%;
   text-align: center;
   overflow: auto;
-
 }
 
 div.top-nav p#day {
-  text-align: center;
   width: 50%;
   float: left;
 }
 
-div.top-nav p#today-link {
+div.top-nav p#today-link, div.top-nav p#tomorrow-link {
   text-align: left;
   float: left;
   width: 25%;
@@ -42,21 +37,13 @@ div.top-nav p#today-link {
 
 div.top-nav p#tomorrow-link {
   text-align: right;
-  float: left;
-  width: 25%;
 }
 
-div.bottom-nav {
- text-align: center;
- margin-top: 30px;
-}
 
-div.bottom-nav p {
- margin-top: 20px;
-}
+/* Timetables section */
 
-div.bottom-nav a {
-    margin: 0px 8px;
+h2 {
+ color: #009CEB;
 }
 
 td {
@@ -70,4 +57,25 @@ tr:nth-child(odd) td {
 }
 
 
+/* Bottom navigation */
 
+div.bottom-nav {
+ text-align: center;
+ margin-top: 30px;
+}
+
+div.bottom-nav p {
+ margin-top: 20px;
+}
+
+div.bottom-nav p#about {
+ margin-top: 40px;
+}
+
+div.bottom-nav p#today-tomorrow {
+ font-size: 110%;
+}
+
+div.bottom-nav a {
+    margin: 0px 8px;
+}
