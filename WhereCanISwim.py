@@ -26,25 +26,31 @@ class Session(db.Model):
             'pool =', pool).filter('end_time >', time).order('end_time')
 
     @classmethod
-    def make_table(cls, day, pool, time):
-        if cls.here_now_sessions(day, pool, time).get():
-            table = u'<table>'
-            for session in cls.here_now_sessions(day, pool, time):
-                str_start_time = session.start_time.strftime(
-                    '%H:%M').lstrip('0')
-                str_end_time = session.end_time.strftime('%H:%M').lstrip('0')
-                timecell = "%s - %s" % (str_start_time, str_end_time)
-                table += u'<tr><td>{0}</td><td>{1}</td></tr>'.format(timecell,
-                    session.details)
-            table += u'</table>'
-            return table
-        else:
-            return "<p>No more swimming here today, I'm afraid.</p>"
-
-    @classmethod
-    def make_all_tables(cls, day, time):
+    def get_all_session_data(cls, day, time):
+        session_data = {}
+ 
         pools = [session.pool for session in Session.all()]
-        return {pool[:4]: cls.make_table(day, pool, time) for pool in pools}
+
+        for pool in pools:
+            pool_sessions = cls.here_now_sessions(day, pool, time)
+            shortname = pool[:4]
+            # If there are sessions still going on this day at this pool, add
+            # them into a dictionary to be used by the template
+            if pool_sessions:
+                session_data[shortname] = [] 
+                for ps in pool_sessions:
+                    session_time = "{0} - {1}".format(
+                        ps.start_time.strftime('%H:%M').lstrip('0'), 
+                        ps.end_time.strftime('%H:%M').lstrip('0'))
+                    session_data[shortname].append({'time': session_time,
+                        'details': ps.details})
+
+            # If no sessions are available for this pool, on this day, at this
+            # time, then stick in a marker to represent this.
+            else:
+                session_data[shortname] = {'ended': True}
+ 
+        return session_data
 
 
 class Day(webapp2.RequestHandler):
@@ -65,7 +71,8 @@ class Day(webapp2.RequestHandler):
             day_str = urlday
             html_page = 'day.html'
 
-        template_values = Session.make_all_tables(day_str, earliest_end_time)
+        template_values = Session.get_all_session_data(day_str,
+            earliest_end_time)
         template_values['day'] = day_str
         template_values['previous'] = day_of_week[(
             day_of_week.index(day_str) - 1) % 7]

@@ -2,15 +2,59 @@
 
 	{% block timetables %}
         <h2>York Hall Leisure Centre</h2>
-	    {{ York|safe }}
+	    {% if York.ended %}
+	        <p>No more swimming here today, I'm afraid.</p>
+	    {% else %}
+	        <table>
+	        {% for session in York %}
+	            <tr>
+	                <td>{{ session.time }}</td>
+	                <td>{{ session.details }}</td>
+	            </tr>
+	        {% endfor %}
+	        </table>
+	    {% endif %}
 
         <h2>Ironmonger Row</h2>
-        {{ Iron|safe }}
+	    {% if Iron.ended %}
+	        <p>No more swimming here today, I'm afraid.</p>
+	    {% else %}
+	        <table>
+	        {% for session in Iron %}
+	            <tr>
+	                <td>{{ session.time }}</td>
+	                <td>{{ session.details }}</td>
+	            </tr>
+	        {% endfor %}
+	        </table>
+	    {% endif %}
 
         <h2>London Fields Lido</h2>
-        {{ Lond|safe }}
+	    {% if Lond.ended %}
+	        <p>No more swimming here today, I'm afraid.</p>
+	    {% else %}
+	        <table>
+	        {% for session in Lond %}
+	            <tr>
+	                <td>{{ session.time }}</td>
+	                <td>{{ session.details }}</td>
+	            </tr>
+	        {% endfor %}
+	        </table>
+	    {% endif %}
 
 	    <h2>Mile End Leisure Centre</h2>
-	    {{ Mile|safe }}        
+	    {% if Mile.ended %}
+	        <p>No more swimming here today, I'm afraid.</p>
+	    {% else %}
+	        <table>
+	        {% for session in Mile %}
+	            <tr>
+	                <td>{{ session.time }}</td>
+	                <td>{{ session.details }}</td>
+	            </tr>
+	        {% endfor %}
+	        </table>
+	    {% endif %}    
 	
 	{% endblock %}
