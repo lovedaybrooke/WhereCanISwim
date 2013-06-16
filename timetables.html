@@ -2,7 +2,7 @@
 
 	{% block timetables %}
         <h2>York Hall Leisure Centre</h2>
-	    {% if York.ended %}
+	    {% if York == 'ended' %}
 	        <p>No more swimming here today, I'm afraid.</p>
 	    {% else %}
 	        <table>
@@ -16,7 +16,7 @@
 	    {% endif %}
 
         <h2>Ironmonger Row</h2>
-	    {% if Iron.ended %}
+	    {% if Iron == 'ended' %}
 	        <p>No more swimming here today, I'm afraid.</p>
 	    {% else %}
 	        <table>
@@ -30,7 +30,7 @@
 	    {% endif %}
 
         <h2>London Fields Lido</h2>
-	    {% if Lond.ended %}
+	    {% if Lond == 'ended' %}
 	        <p>No more swimming here today, I'm afraid.</p>
 	    {% else %}
 	        <table>
@@ -44,7 +44,7 @@
 	    {% endif %}
 
 	    <h2>Mile End Leisure Centre</h2>
-	    {% if Mile.ended %}
+	    {% if Mile == 'ended' %}
 	        <p>No more swimming here today, I'm afraid.</p>
 	    {% else %}
 	        <table>

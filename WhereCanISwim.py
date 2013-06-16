@@ -23,7 +23,8 @@ class Session(db.Model):
     @classmethod
     def here_now_sessions(cls, day, pool, time):
         return Session.all().filter('day =', day).filter(
-            'pool =', pool).filter('end_time >', time).order('end_time')
+            'pool =', pool).filter('end_time >', time).order('end_time').fetch(
+            100)
 
     @classmethod
     def get_all_session_data(cls, day, time):
@@ -48,8 +49,7 @@ class Session(db.Model):
             # If no sessions are available for this pool, on this day, at this
             # time, then stick in a marker to represent this.
             else:
-                session_data[shortname] = {'ended': True}
- 
+                session_data[shortname] = 'ended'
         return session_data
 
 
