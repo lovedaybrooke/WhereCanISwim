@@ -16,5 +16,8 @@ handlers:
   static_files: favicon.ico
   upload: favicon.ico
   
+- url: /update-sessions
+  script: updateSessions.application
+
 - url: /.*
-  script: where-can-i-swim.application
+  script: WhereCanISwim.application
