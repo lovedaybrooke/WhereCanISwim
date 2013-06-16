@@ -81,31 +81,31 @@ class Day(webapp2.RequestHandler):
     @staticmethod
     def correct_for_dst(today):
         clock_switches = {
-            "2013": {
+            2013: {
                 "spring": datetime.datetime(2013, 03, 31, 1),
                 "autumn": datetime.datetime(2013, 10, 27, 2)
                 },
-            "2014": {
+            2014: {
                 "spring": datetime.datetime(2014, 03, 30, 1),
                 "autumn": datetime.datetime(2014, 10, 26, 2)
                 },
-            "2015": {
+            2015: {
                 "spring": datetime.datetime(2015, 03, 29, 1),
                 "autumn": datetime.datetime(2015, 10, 25, 2)
                 },
-            "2016": {
+            2016: {
                 "spring": datetime.datetime(2015, 03, 27, 1),
                 "autumn": datetime.datetime(2015, 10, 30, 2)
                 }
             }
-        this_year = today.year()
+        this_year = today.year
 
         in_daylight_savings_time = (
             today >= clock_switches[this_year]["spring"] and 
             today <= clock_switches[this_year]["autumn"])
 
         if in_daylight_savings_time:
-            return today + datetime.timedelta(hour=1)
+            return today + datetime.timedelta(hours=1)
         else:
             return today
 
